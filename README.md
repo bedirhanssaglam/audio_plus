@@ -25,7 +25,7 @@
 ### Features
 
 - **Audio Control**: Play, pause, resume, stop audio files.
-- **Volume Adjustment:**: Increase or decrease the volume as desired.
+- **Volume Adjustment**: Increase or decrease the volume as desired.
 - **Seek Position**: Seek to a specific position within the audio file.
 - **Playback Status Tracking**: Track whether audio is currently playing.
 - **Duration and Position Information**: Retrieve the current playback position and total duration.
@@ -109,7 +109,7 @@ If you would like to contribute to the plugin (e.g. by improving the documentati
 
 ### Author
 
-This social_sharing_plus plugin for Flutter is developed by [Bedirhan Sağlam](https://github.com/bedirhanssaglam). You can contact me at <bedirhansaglam270@gmail.com>
+This audio_plus plugin for Flutter is developed by [Bedirhan Sağlam](https://github.com/bedirhanssaglam). You can contact me at <bedirhansaglam270@gmail.com>
 
 ### License
 
