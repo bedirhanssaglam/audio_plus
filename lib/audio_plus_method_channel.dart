@@ -2,12 +2,11 @@ import 'dart:async' show Future;
 import 'dart:developer' show log;
 import 'dart:io' show File;
 
-import 'package:flutter/foundation.dart' show ByteData, visibleForTesting;
+import 'package:audio_plus/audio_plus_platform_interface.dart';
+import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:flutter/services.dart'
-    show ByteData, MethodChannel, PlatformException, rootBundle;
+    show MethodChannel, PlatformException, rootBundle;
 import 'package:path_provider/path_provider.dart' show getTemporaryDirectory;
-
-import 'audio_plus_platform_interface.dart';
 
 /// An implementation of [AudioPlusPlatform] that uses method channels.
 class MethodChannelAudioPlus extends AudioPlusPlatform {
@@ -16,10 +15,10 @@ class MethodChannelAudioPlus extends AudioPlusPlatform {
   final methodChannel = const MethodChannel('audio_plus');
 
   Future<String> _getTempFilePath(String assetPath) async {
-    final ByteData data = await rootBundle.load(assetPath);
+    final data = await rootBundle.load(assetPath);
     final List<int> bytes = data.buffer.asUint8List();
-    final String tempPath = (await getTemporaryDirectory()).path;
-    final File tempFile = File('$tempPath/${assetPath.split('/').last}');
+    final tempPath = (await getTemporaryDirectory()).path;
+    final tempFile = File('$tempPath/${assetPath.split('/').last}');
     await tempFile.writeAsBytes(bytes, flush: true);
     return tempFile.path;
   }
