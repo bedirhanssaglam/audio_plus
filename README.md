@@ -1,6 +1,6 @@
 # audio_plus
 
-`audio_plus` is a comprehensive package for playing audio files in Flutter applications. This package provides a platform-independent interface and can be used to perform basic operations such as playing, pausing, resuming, and stopping audio files on different platforms (iOS, Android). Additionally, it includes advanced features for enhanced audio control, special effects, and customized audio experiences.
+`audio_plus` is a comprehensive package for playing audio files in Flutter applications. This package provides a platform-independent interface and can be used to perform basic operations such as playing, pausing, resuming, and stopping audio files on different platforms (iOS, Android). Additionally, it includes advanced features for enhanced audio control and customized audio experiences.
 
 ## Table of contents
 

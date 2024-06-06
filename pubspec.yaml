@@ -1,5 +1,5 @@
 name: audio_plus
-description: "A new Flutter plugin project."
+description: "audio_plus plays audio in Flutter apps, offering play, pause, resume, and stop and advanced features for enhanced audio control."
 version: 0.0.1
 homepage:
 
