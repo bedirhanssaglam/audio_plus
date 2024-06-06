@@ -96,7 +96,7 @@ In the `example` folder, you will find a sample application demonstrating how to
 ### Dart Version
 
 ```yaml
-  sdk: '>=2.15.0 <4.0.0'
+  sdk: '>=2.17.0 <4.0.0'
 ```
 
 ### Issues
