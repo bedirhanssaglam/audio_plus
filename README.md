@@ -32,6 +32,17 @@
 
 ### Screenshots
 
+<table>
+    <tbody>
+            <td align="center" style="background-color: white">
+                <img src="https://github.com/bedirhanssaglam/audio_plus/assets/105479937/013860e0-d5f9-4412-b335-84c0136828ac" width=250" /></a>
+            </td>
+            <td align="center" style="background-color: white">
+               <img src="https://github.com/bedirhanssaglam/audio_plus/assets/105479937/08d68652-d9ff-4eae-befb-5adead6b487e" width=200" /></a>
+            </td>
+    </tbody>
+</table>
+
 ### Installation
 
 To add the `audio_plus` package to your project, include the following line in the dependencies section of your `pubspec.yaml` file:
