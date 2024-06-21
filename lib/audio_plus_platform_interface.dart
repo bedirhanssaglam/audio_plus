@@ -77,4 +77,14 @@ abstract class AudioPlusPlatform extends PlatformInterface {
   /// This method sends a request to the platform to retrieve the total duration
   /// of the currently playing audio.
   Future<double?> get duration;
+
+  /// Sets the replay mode of the audio.
+  ///
+  /// This method sends a request to the platform to set whether the currently playing
+  /// audio should replay automatically when it reaches the end. If [isReplay] is `true`,
+  /// the audio will replay indefinitely. If [isReplay] is `false`, the audio will play once
+  /// and then stop.
+  ///
+  /// [isReplay]: A boolean value indicating whether the audio should replay.
+  Future<void> isLooping(bool isLooping);
 }

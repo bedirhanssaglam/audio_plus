@@ -10,4 +10,5 @@ object Methods {
     const val IS_PLAYING = "isPlaying"
     const val CURRENT_POSITION = "currentPosition"
     const val GET_DURATION = "getDuration"
+    const val IS_LOOPING = "isLooping"
 }
