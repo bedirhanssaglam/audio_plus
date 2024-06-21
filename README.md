@@ -36,10 +36,10 @@
 <table>
     <tbody>
             <td align="center" style="background-color: white">
-                <img src="https://github.com/bedirhanssaglam/audio_plus/assets/105479937/013860e0-d5f9-4412-b335-84c0136828ac" width=250" /></a>
+                <img src="https://github.com/bedirhanssaglam/audio_plus/assets/105479937/b72766cd-5906-4c11-992c-42e88204c69d" width=250" /></a>
             </td>
             <td align="center" style="background-color: white">
-               <img src="https://github.com/bedirhanssaglam/audio_plus/assets/105479937/08d68652-d9ff-4eae-befb-5adead6b487e" width=200" /></a>
+               <img src="https://github.com/bedirhanssaglam/audio_plus/assets/105479937/f1d1c029-415a-4e27-b24b-061ca937de0f" width=200" /></a>
             </td>
     </tbody>
 </table>
