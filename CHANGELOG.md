@@ -1,3 +1,7 @@
+# 0.0.4
+
+- feat: add audio loop method (isLooping)
+
 # 0.0.3
 
 - docs: fix word mistakes

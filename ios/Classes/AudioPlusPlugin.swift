@@ -19,6 +19,7 @@ public class AudioPlusPlugin: NSObject, FlutterPlugin {
         case isPlaying
         case currentPosition
         case getDuration
+        case isLooping
     }
 
     /// Registers the plugin with the Flutter registrar and sets up method call delegation.
@@ -74,14 +75,17 @@ public class AudioPlusPlugin: NSObject, FlutterPlugin {
             currentPosition = 0
             result("File stopped")
         case .increaseVolume:
-            guard let player = audioPlayer,
-                  let arguments = call.arguments as? [String: Any],
-                  let volume = arguments["volume"] as? Double else {
-                result(FlutterError(code: "INVALID_ARGUMENT", message: "Volume not specified", details: nil))
-                return
+            if let player = audioPlayer {
+                guard let arguments = call.arguments as? [String: Any],
+                      let volume = arguments["volume"] as? Double else {
+                    result(FlutterError(code: "INVALID_ARGUMENT", message: "Volume not specified", details: nil))
+                    return
+                }
+                player.volume = Float(volume)
+                result("Volume increased successfully")
+            } else {
+                result(nil)
             }
-            player.volume = Float(volume)
-            result("Volume increased successfully")
         case .seekTo:
             guard let player = audioPlayer,
                   let arguments = call.arguments as? [String: Any],
@@ -98,6 +102,14 @@ public class AudioPlusPlugin: NSObject, FlutterPlugin {
             result(audioPlayer?.currentTime ?? 0.0)
         case .getDuration:
             result(audioPlayer?.duration ?? 0.0)
+        case .isLooping:
+            guard let arguments = call.arguments as? [String: Any],
+                  let isReplay = arguments["isLooping"] as? Bool else {
+                result(FlutterError(code: "INVALID_ARGUMENT", message: "Replay not specified", details: nil))
+                return
+            }
+            audioPlayer?.numberOfLoops = isReplay ? -1 : 0
+            result("Replay setting updated")            
         }
     }
 }

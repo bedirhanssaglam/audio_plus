@@ -49,26 +49,32 @@ class AudioPlusPlugin : FlutterPlugin, MethodCallHandler {
             }
 
             Methods.STOP -> {
-                mediaPlayer?.stop()
-                mediaPlayer?.reset()
-                mediaPlayer?.release()
+                mediaPlayer?.apply {
+                    stop()
+                    reset()
+                    release()
+                }
                 mediaPlayer = MediaPlayer()
                 result.success("File stopped")
             }
 
             Methods.INCREASE_VOLUME -> {
                 val volume: Float? = call.argument<Double>("volume")?.toFloat()
-                if (volume != null) {
-                    mediaPlayer?.setVolume(volume, volume)
-                    result.success("Volume increased successfully")
+                if (mediaPlayer != null) {
+                    if (volume != null) {
+                        mediaPlayer?.setVolume(volume, volume)
+                        result.success("Volume increased successfully")
+                    } else {
+                        result.error("INVALID_ARGUMENT", "Volume not specified", null)
+                    }
                 } else {
-                    result.error("INVALID_ARGUMENT", "Volume not specified", null)
+                    result.success(null)
                 }
             }
 
             Methods.SEEK_TO -> {
                 val position: Int? = call.argument<Int>("position")
-                    println(position)
+                println(position)
                 if (position != null) {
                     mediaPlayer?.seekTo(position)
                     result.success("File position updated")
@@ -93,6 +99,19 @@ class AudioPlusPlugin : FlutterPlugin, MethodCallHandler {
                 val durationInMillis: Double = mediaPlayer?.duration?.toDouble() ?: 0.0
                 val durationInSeconds: Double = durationInMillis / 1000
                 result.success(durationInSeconds)
+            }
+
+            Methods.IS_LOOPING -> {
+                val isReplay: Boolean = call.argument<Boolean?>("isLooping") ?: false
+                mediaPlayer?.isLooping = isReplay
+                if (isReplay) {
+                    mediaPlayer?.setOnCompletionListener {
+                        it.start()
+                    }
+                } else {
+                    mediaPlayer?.setOnCompletionListener(null)
+                }
+                result.success("Replay mode set to $isReplay")
             }
 
             else -> {

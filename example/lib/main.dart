@@ -33,9 +33,9 @@ class AudioPlayerScreen extends StatefulWidget {
 }
 
 class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
-  final StreamController<double> _positionStreamController =
-      StreamController<double>();
+  final StreamController<double> _positionStreamController = StreamController<double>();
   bool isPlaying = false;
+  bool isLooping = false;
   double currentPosition = 0;
   double maxDuration = 0;
   double volume = 1.0;
@@ -107,8 +107,7 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
   }
 
   Future<void> _seekTo(double value) async {
-    await AudioPlus.seekTo(
-        ((Platform.isAndroid ? value * 1000 : value).toInt()));
+    await AudioPlus.seekTo(((Platform.isAndroid ? value * 1000 : value).toInt()));
     setState(() {
       currentPosition = value;
     });
@@ -119,6 +118,12 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
     setState(() {
       volume = value;
     });
+  }
+
+  Future<void> _setReplay() async {
+    isLooping = !isLooping;
+    await AudioPlus.isLooping(isLooping);
+    setState(() {});
   }
 
   @override
@@ -170,12 +175,7 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 IconButton(
-                  icon: Icon(
-                      isPlaying
-                          ? Icons.pause_circle_filled
-                          : Icons.play_circle_filled,
-                      color: Colors.white,
-                      size: 56),
+                  icon: Icon(isPlaying ? Icons.pause_circle_filled : Icons.play_circle_filled, color: Colors.white, size: 56),
                   onPressed: isPlaying
                       ? _pause
                       : currentPosition > 0
@@ -191,6 +191,14 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
                     ),
                     onPressed: _stop,
                   ),
+                IconButton(
+                  icon: Icon(
+                    isLooping ? Icons.repeat_one : Icons.repeat,
+                    color: isLooping ? Colors.green : Colors.white,
+                    size: 56,
+                  ),
+                  onPressed: _setReplay,
+                ),
               ],
             ),
             Volume(volume: volume, onChanged: _changeVolume),

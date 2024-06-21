@@ -1,6 +1,6 @@
 # audio_plus
 
-`audio_plus` is a comprehensive package for playing audio files in Flutter applications. This package provides a platform-independent interface and can be used to perform basic operations such as playing, pausing, resuming, and stopping audio files on different platforms (iOS, Android). Additionally, it includes advanced features for enhanced audio control and customized audio experiences.
+`audio_plus` is a comprehensive package for playing audio files in Flutter applications. This package provides a platform-independent interface and can be used to perform basic operations such as playing, pausing, resuming, looping and stopping audio files on different platforms (iOS, Android). Additionally, it includes advanced features for enhanced audio control and customized audio experiences.
 
 ## Table of contents
 
@@ -29,6 +29,7 @@
 - **Seek Position**: Seek to a specific position within the audio file.
 - **Playback Status Tracking**: Track whether audio is currently playing.
 - **Duration and Position Information**: Retrieve the current playback position and total duration.
+- **Loop**: Loop the audio file.
 
 ### Screenshots
 
@@ -49,7 +50,7 @@ To add the `audio_plus` package to your project, include the following line in t
 
 ```yaml
 dependencies:
-  audio_plus: ^0.0.2
+  audio_plus: ^0.0.4
 ```  
 
 Run the following command in the terminal to update your package dependencies:
@@ -80,6 +81,9 @@ await AudioPlus.increaseVolume(0.8);
 
 // Seek to a specific position
 await AudioPlus.seekTo(5000);
+
+// Loops the audio file
+await AudioPlus.isLooping(true);
 
 // Check if audio is currently playing
 bool? playing = await AudioPlus.isPlaying;
