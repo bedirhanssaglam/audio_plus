@@ -81,8 +81,8 @@ abstract class AudioPlusPlatform extends PlatformInterface {
   /// Sets the replay mode of the audio.
   ///
   /// This method sends a request to the platform to set whether the currently playing
-  /// audio should replay automatically when it reaches the end. If [isReplay] is `true`,
-  /// the audio will replay indefinitely. If [isReplay] is `false`, the audio will play once
+  /// audio should replay automatically when it reaches the end. If [isLooping] is `true`,
+  /// the audio will replay indefinitely. If [isLooping] is `false`, the audio will play once
   /// and then stop.
   ///
   /// [isReplay]: A boolean value indicating whether the audio should replay.
