@@ -1,4 +1,4 @@
-import 'package:audio_plus/audio_plus_method_channel.dart';
+import 'package:audio_plus/src/audio_plus_method_channel.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 /// `AudioPlusPlatform` abstract class provides an interface for
@@ -29,6 +29,12 @@ abstract class AudioPlusPlatform extends PlatformInterface {
   /// This method sends a request to the platform to play the audio file located
   /// at the given [filePath].
   Future<void> play(String filePath);
+
+  /// Initiates audio playback for the specified URL.
+  ///
+  /// This method sends a request to the platform to play the audio file from
+  /// the given [url].
+  Future<void> playUrl(String url);
 
   /// Pauses the currently playing audio.
   ///

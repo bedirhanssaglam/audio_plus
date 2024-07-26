@@ -2,9 +2,10 @@ import 'dart:async' show Future;
 import 'dart:developer' show log;
 import 'dart:io' show File;
 
-import 'package:audio_plus/audio_plus_platform_interface.dart';
+import 'package:audio_plus/src/audio_plus_platform_interface.dart';
 import 'package:flutter/foundation.dart' show visibleForTesting;
-import 'package:flutter/services.dart' show MethodChannel, PlatformException, rootBundle;
+import 'package:flutter/services.dart'
+    show MethodChannel, PlatformException, rootBundle;
 import 'package:path_provider/path_provider.dart' show getTemporaryDirectory;
 
 /// An implementation of [AudioPlusPlatform] that uses method channels.
@@ -13,7 +14,7 @@ class MethodChannelAudioPlus extends AudioPlusPlatform {
   @visibleForTesting
   final methodChannel = const MethodChannel('audio_plus');
 
-  Future<String> _getTempFilePath(String assetPath) async {
+  Future<String?> _getTempFilePath(String assetPath) async {
     final data = await rootBundle.load(assetPath);
     final List<int> bytes = data.buffer.asUint8List();
     final tempPath = (await getTemporaryDirectory()).path;
@@ -27,6 +28,15 @@ class MethodChannelAudioPlus extends AudioPlusPlatform {
     try {
       final path = await _getTempFilePath(filePath);
       await methodChannel.invokeMethod<void>('play', {'filePath': path});
+    } on PlatformException catch (e) {
+      throw PlatformException(code: e.code, message: e.message);
+    }
+  }
+
+  @override
+  Future<void> playUrl(String url) async {
+    try {
+      await methodChannel.invokeMethod<void>('playUrl', {'url': url});
     } on PlatformException catch (e) {
       throw PlatformException(code: e.code, message: e.message);
     }
@@ -62,7 +72,8 @@ class MethodChannelAudioPlus extends AudioPlusPlatform {
   @override
   Future<void> increaseVolume(double volume) async {
     try {
-      await methodChannel.invokeMethod<void>('increaseVolume', {'volume': volume});
+      await methodChannel
+          .invokeMethod<void>('increaseVolume', {'volume': volume});
     } on PlatformException catch (e) {
       throw PlatformException(code: e.code, message: e.message);
     }
@@ -110,7 +121,8 @@ class MethodChannelAudioPlus extends AudioPlusPlatform {
   @override
   Future<void> isLooping(bool isLooping) async {
     try {
-      await methodChannel.invokeMethod<void>('isLooping', {'isLooping': isLooping});
+      await methodChannel
+          .invokeMethod<void>('isLooping', {'isLooping': isLooping});
     } on PlatformException catch (e) {
       throw PlatformException(code: e.code, message: e.message);
     }

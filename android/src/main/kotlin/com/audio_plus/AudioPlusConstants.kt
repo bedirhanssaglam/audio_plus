@@ -1,7 +1,12 @@
 package com.audio_plus
 
-object Methods {
+object AudioPlusConstants {
+    // CHANNEL NAME
+    const val CHANNEL_NAME = "audio_plus"
+
+    // METHODS
     const val PLAY = "play"
+    const val PLAY_URL = "playUrl"
     const val PAUSE = "pause"
     const val RESUME = "resume"
     const val STOP = "stop"
