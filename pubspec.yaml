@@ -1,6 +1,6 @@
 name: audio_plus
 description: "audio_plus plays audio in Flutter apps, offering play, pause, resume, loop and stop and advanced features for enhanced audio control."
-version: 0.0.4
+version: 1.0.0
 homepage: https://github.com/bedirhanssaglam/audio_plus
 repository: https://github.com/bedirhanssaglam/audio_plus
 issue_tracker: https://github.com/bedirhanssaglam/audio_plus/issues

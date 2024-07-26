@@ -1,3 +1,7 @@
+# 1.0.0
+
+- feat: add playUrl functionality
+
 # 0.0.4
 
 - feat: add audio loop method (isLooping)
