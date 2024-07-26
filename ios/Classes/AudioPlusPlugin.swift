@@ -11,6 +11,7 @@ public class AudioPlusPlugin: NSObject, FlutterPlugin {
     /// Enum to represent method names used in method channel communication.
     private enum MethodName: String {
         case play
+        case playUrl
         case pause
         case resume
         case stop
@@ -49,10 +50,38 @@ public class AudioPlusPlugin: NSObject, FlutterPlugin {
                 audioPlayer = try AVAudioPlayer(contentsOf: url)
                 audioPlayer?.prepareToPlay()
                 audioPlayer?.play()
-                result("File played successfully")
+                result(nil)
             } catch let error {
                 result(FlutterError(code: "PLAYER_ERROR", message: "File playback error: \(error.localizedDescription)", details: nil))
             }
+
+        case .playUrl:
+            guard let arguments = call.arguments as? [String: Any],
+                  let urlString = arguments["url"] as? String,
+                  let url = URL(string: urlString) else {
+                result(FlutterError(code: "INVALID_ARGUMENT", message: "URL not specified or invalid", details: nil))
+                return
+            }
+            DispatchQueue.global().async {
+                do {
+                    let data = try Data(contentsOf: url)
+                    DispatchQueue.main.async {
+                        do {
+                            self.audioPlayer = try AVAudioPlayer(data: data)
+                            self.audioPlayer?.prepareToPlay()
+                            self.audioPlayer?.play()
+                            result(nil)
+                        } catch let error {
+                            result(FlutterError(code: "PLAYER_ERROR", message: "URL playback error: \(error.localizedDescription)", details: nil))
+                        }
+                    }
+                } catch let error {
+                    DispatchQueue.main.async {
+                        result(FlutterError(code: "URL_ERROR", message: "Failed to load URL: \(error.localizedDescription)", details: nil))
+                    }
+                }
+            }
+
         case .pause:
             guard let player = audioPlayer else {
                 result(FlutterError(code: "PLAYER_ERROR", message: "Player not initialized", details: nil))
@@ -60,7 +89,8 @@ public class AudioPlusPlugin: NSObject, FlutterPlugin {
             }
             player.pause()
             currentPosition = player.currentTime
-            result("File paused")
+            result(nil)
+
         case .resume:
             guard let player = audioPlayer else {
                 result(FlutterError(code: "PLAYER_ERROR", message: "Player not initialized", details: nil))
@@ -68,12 +98,14 @@ public class AudioPlusPlugin: NSObject, FlutterPlugin {
             }
             player.currentTime = currentPosition
             player.play()
-            result("File resumed")
+            result(nil)
+
         case .stop:
             audioPlayer?.stop()
             audioPlayer = nil
             currentPosition = 0
-            result("File stopped")
+            result(nil)
+
         case .increaseVolume:
             if let player = audioPlayer {
                 guard let arguments = call.arguments as? [String: Any],
@@ -82,10 +114,11 @@ public class AudioPlusPlugin: NSObject, FlutterPlugin {
                     return
                 }
                 player.volume = Float(volume)
-                result("Volume increased successfully")
+                result(nil)
             } else {
                 result(nil)
             }
+
         case .seekTo:
             guard let player = audioPlayer,
                   let arguments = call.arguments as? [String: Any],
@@ -94,14 +127,18 @@ public class AudioPlusPlugin: NSObject, FlutterPlugin {
                 return
             }
             player.currentTime = TimeInterval(position)
-            result("File position updated")
+            result(nil)
+
         case .isPlaying:
             let isPlaying = audioPlayer?.isPlaying ?? false
             result(isPlaying)
+
         case .currentPosition:
             result(audioPlayer?.currentTime ?? 0.0)
+
         case .getDuration:
             result(audioPlayer?.duration ?? 0.0)
+
         case .isLooping:
             guard let arguments = call.arguments as? [String: Any],
                   let isReplay = arguments["isLooping"] as? Bool else {
@@ -109,7 +146,7 @@ public class AudioPlusPlugin: NSObject, FlutterPlugin {
                 return
             }
             audioPlayer?.numberOfLoops = isReplay ? -1 : 0
-            result("Replay setting updated")            
+            result(nil)
         }
     }
 }

@@ -14,14 +14,15 @@ class AudioPlusPlugin : FlutterPlugin, MethodCallHandler {
     var mediaPlayer: MediaPlayer? = null
 
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
-        channel = MethodChannel(flutterPluginBinding.binaryMessenger, "audio_plus")
+        channel =
+            MethodChannel(flutterPluginBinding.binaryMessenger, AudioPlusConstants.CHANNEL_NAME)
         channel.setMethodCallHandler(this)
         mediaPlayer = MediaPlayer()
     }
 
     override fun onMethodCall(call: MethodCall, result: Result) {
         when (call.method) {
-            Methods.PLAY -> {
+            AudioPlusConstants.PLAY -> {
                 val filePath: String? = call.argument<String>("filePath")
                 if (!filePath.isNullOrEmpty()) {
                     mediaPlayer?.apply {
@@ -30,40 +31,55 @@ class AudioPlusPlugin : FlutterPlugin, MethodCallHandler {
                         prepare()
                         start()
                     }
-                    result.success("File played successfully")
+                    result.success(null)
                 } else {
                     result.error("INVALID_ARGUMENT", "File path cannot be empty", null)
                 }
             }
 
-            Methods.PAUSE -> {
-                mediaPlayer?.pause()
-                result.success("File paused")
+            AudioPlusConstants.PLAY_URL -> {
+                val url: String? = call.argument<String>("url")
+                if (!url.isNullOrEmpty()) {
+                    mediaPlayer?.apply {
+                        reset()
+                        setDataSource(url)
+                        prepare()
+                        start()
+                    }
+                    result.success(null)
+                } else {
+                    result.error("INVALID_ARGUMENT", "URL cannot be empty", null)
+                }
             }
 
-            Methods.RESUME -> {
+            AudioPlusConstants.PAUSE -> {
+                mediaPlayer?.pause()
+                result.success(null)
+            }
+
+            AudioPlusConstants.RESUME -> {
                 val length: Int = mediaPlayer?.currentPosition ?: 0
                 mediaPlayer?.seekTo(length)
                 mediaPlayer?.start()
-                result.success("File resumed")
+                result.success(null)
             }
 
-            Methods.STOP -> {
+            AudioPlusConstants.STOP -> {
                 mediaPlayer?.apply {
                     stop()
                     reset()
                     release()
                 }
                 mediaPlayer = MediaPlayer()
-                result.success("File stopped")
+                result.success(null)
             }
 
-            Methods.INCREASE_VOLUME -> {
+            AudioPlusConstants.INCREASE_VOLUME -> {
                 val volume: Float? = call.argument<Double>("volume")?.toFloat()
                 if (mediaPlayer != null) {
                     if (volume != null) {
                         mediaPlayer?.setVolume(volume, volume)
-                        result.success("Volume increased successfully")
+                        result.success(null)
                     } else {
                         result.error("INVALID_ARGUMENT", "Volume not specified", null)
                     }
@@ -72,46 +88,44 @@ class AudioPlusPlugin : FlutterPlugin, MethodCallHandler {
                 }
             }
 
-            Methods.SEEK_TO -> {
+            AudioPlusConstants.SEEK_TO -> {
                 val position: Int? = call.argument<Int>("position")
                 println(position)
                 if (position != null) {
                     mediaPlayer?.seekTo(position)
-                    result.success("File position updated")
+                    result.success(null)
                 } else {
                     result.error("INVALID_ARGUMENT", "Position not specified", null)
                 }
             }
 
-            Methods.IS_PLAYING -> {
+            AudioPlusConstants.IS_PLAYING -> {
                 val isPlaying: Boolean = mediaPlayer?.isPlaying ?: false
                 result.success(isPlaying)
             }
 
-            Methods.CURRENT_POSITION -> {
+            AudioPlusConstants.CURRENT_POSITION -> {
                 val currentPositionInMillis: Double =
                     mediaPlayer?.currentPosition?.toDouble() ?: 0.0
                 val currentPositionInSeconds: Double = currentPositionInMillis / 1000
                 result.success(currentPositionInSeconds)
             }
 
-            Methods.GET_DURATION -> {
+            AudioPlusConstants.GET_DURATION -> {
                 val durationInMillis: Double = mediaPlayer?.duration?.toDouble() ?: 0.0
                 val durationInSeconds: Double = durationInMillis / 1000
                 result.success(durationInSeconds)
             }
 
-            Methods.IS_LOOPING -> {
+            AudioPlusConstants.IS_LOOPING -> {
                 val isReplay: Boolean = call.argument<Boolean?>("isLooping") ?: false
                 mediaPlayer?.isLooping = isReplay
                 if (isReplay) {
-                    mediaPlayer?.setOnCompletionListener {
-                        it.start()
-                    }
+                    mediaPlayer?.setOnCompletionListener { it.start() }
                 } else {
                     mediaPlayer?.setOnCompletionListener(null)
                 }
-                result.success("Replay mode set to $isReplay")
+                result.success(null)
             }
 
             else -> {

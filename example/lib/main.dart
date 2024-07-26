@@ -33,7 +33,8 @@ class AudioPlayerScreen extends StatefulWidget {
 }
 
 class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
-  final StreamController<double> _positionStreamController = StreamController<double>();
+  final StreamController<double> _positionStreamController =
+      StreamController<double>();
   bool isPlaying = false;
   bool isLooping = false;
   double currentPosition = 0;
@@ -61,6 +62,7 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
 
   Future<void> _play() async {
     await AudioPlus.play('assets/audio/beethoven.mp3');
+    // or await AudioPlus.playUrl('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
     maxDuration = await AudioPlus.duration ?? 0;
     currentPosition = await AudioPlus.currentPosition ?? 0;
     _startPositionStream();
@@ -107,7 +109,8 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
   }
 
   Future<void> _seekTo(double value) async {
-    await AudioPlus.seekTo(((Platform.isAndroid ? value * 1000 : value).toInt()));
+    await AudioPlus.seekTo(
+        ((Platform.isAndroid ? value * 1000 : value).toInt()));
     setState(() {
       currentPosition = value;
     });
@@ -175,12 +178,18 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 IconButton(
-                  icon: Icon(isPlaying ? Icons.pause_circle_filled : Icons.play_circle_filled, color: Colors.white, size: 56),
+                  icon: Icon(
+                    isPlaying
+                        ? Icons.pause_circle_filled
+                        : Icons.play_circle_filled,
+                    color: Colors.white,
+                    size: 56,
+                  ),
                   onPressed: isPlaying
                       ? _pause
                       : currentPosition > 0
                           ? _resume
-                          : _play,
+                          : () => _play,
                 ),
                 if (currentPosition > 0)
                   IconButton(
