@@ -1,3 +1,7 @@
+# 1.0.1
+
+- doc: update package code documentation
+
 # 1.0.0
 
 - feat: add playUrl functionality
