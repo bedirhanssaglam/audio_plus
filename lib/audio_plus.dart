@@ -79,7 +79,7 @@ class AudioPlus {
   /// the audio will replay indefinitely. If [isLooping] is `false`, the audio will play once
   /// and then stop.
   ///
-  /// [isReplay]: A boolean value indicating whether the audio should replay.
+  /// * [isLooping]: A boolean value indicating whether the audio should replay.
   static Future<void> isLooping(bool isLooping) async =>
       AudioPlusPlatform.instance.isLooping(isLooping);
 }

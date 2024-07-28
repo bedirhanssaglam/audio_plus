@@ -1,5 +1,4 @@
 import 'dart:async' show Future;
-import 'dart:developer' show log;
 import 'dart:io' show File;
 
 import 'package:audio_plus/src/audio_plus_platform_interface.dart';
@@ -93,8 +92,7 @@ class MethodChannelAudioPlus extends AudioPlusPlatform {
     try {
       return await methodChannel.invokeMethod<bool>('isPlaying') ?? false;
     } on PlatformException catch (e) {
-      log("Failed to seekTo: '${e.message}'.");
-      return null;
+      throw PlatformException(code: e.code, message: e.message);
     }
   }
 
@@ -103,8 +101,7 @@ class MethodChannelAudioPlus extends AudioPlusPlatform {
     try {
       return await methodChannel.invokeMethod<double>('currentPosition') ?? 0;
     } on PlatformException catch (e) {
-      log("Failed to seekTo: '${e.message}'.");
-      return null;
+      throw PlatformException(code: e.code, message: e.message);
     }
   }
 
@@ -113,8 +110,7 @@ class MethodChannelAudioPlus extends AudioPlusPlatform {
     try {
       return await methodChannel.invokeMethod<double>('getDuration') ?? 0;
     } on PlatformException catch (e) {
-      log("Failed to seekTo: '${e.message}'.");
-      return null;
+      throw PlatformException(code: e.code, message: e.message);
     }
   }
 

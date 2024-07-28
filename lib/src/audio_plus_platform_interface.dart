@@ -91,6 +91,6 @@ abstract class AudioPlusPlatform extends PlatformInterface {
   /// the audio will replay indefinitely. If [isLooping] is `false`, the audio will play once
   /// and then stop.
   ///
-  /// [isReplay]: A boolean value indicating whether the audio should replay.
+  /// * [isLooping]: A boolean value indicating whether the audio should replay.
   Future<void> isLooping(bool isLooping);
 }
