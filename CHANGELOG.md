@@ -1,3 +1,7 @@
+# 1.0.2
+
+- doc: add plugin image
+
 # 1.0.1
 
 - doc: update package code documentation

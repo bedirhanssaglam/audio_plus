@@ -52,7 +52,7 @@ To add the `audio_plus` package to your project, include the following line in t
 
 ```yaml
 dependencies:
-  audio_plus: ^1.0.1
+  audio_plus: ^1.0.2
 ```  
 
 Run the following command in the terminal to update your package dependencies:
