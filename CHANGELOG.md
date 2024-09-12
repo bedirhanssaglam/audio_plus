@@ -1,3 +1,7 @@
+# 1.0.3
+
+- test: add unit and widget tests [(#4)](https://github.com/bedirhanssaglam/audio_plus/pull/4)
+
 # 1.0.2
 
 - doc: add plugin image
