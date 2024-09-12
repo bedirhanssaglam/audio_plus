@@ -7,8 +7,8 @@ class AlbumArt extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 20),
-      width: 300,
-      height: 300,
+      width: 250,
+      height: 250,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         image: const DecorationImage(
